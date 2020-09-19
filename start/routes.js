@@ -20,3 +20,8 @@ Route.group(() => {
     Route.post('register', 'UserController.register')
     Route.post('login', 'UserController.login')
 }).prefix('users')
+
+//product routes
+Route.group(() => { 
+    Route.post('create_product', 'ProductController.create_product')
+}).prefix('products')
