@@ -1,36 +1,66 @@
 'use strict'
 
-const Product = use('App/Models/Product')
+const Paystack = use('App/Helpers/Paystack')
+
+// const Product = use('App/Models/Product')
 
 class ProductController {
-    async create_product ({ request, response }) {
+    async create ({ request,response }) {
         try {
-            const { product_name, product_desc, product_amount, product_price } = request.only(['product_name', 'product_desc',
-                 'product_amount', 'product_price'
-            ])
+            const { name, description, price, currency, quantity } = request.post()
+            let res = await Paystack.create_product({name, description, price, currency, quantity})
 
-            const products = await Product.create({ 
-                product_name,
-                product_desc,
-                product_amount,
-                product_price
+            if ( !res.status ) {
+                return response.badRequest({
+                    message:res.message
+                })
+            }
+
+            return response.ok({
+                message: 'Product successfully created',
+                data: res.data
             })
 
-            return response.status(200).json({ message: 'Products Added Successfully', products })
-            
-        } catch (err) {
-            console.log(err)
+            // const product = await Product.create({
+            //     name: res['data']['name'],
+            //     description: res['data']['description'],
+            //     price: res['data']['price'],
+            //     currency: res['data']['currency']
+            // })
+
+            // return response.ok({
+            //     message: 'Product successfully created',
+            //     data: product
+            // })
+        } catch (e) {
+            response.internalServerError({
+                message: e.message,
+                data: e.stack,
+            });
         }
     }
 
     async get_product ({ response }) {
         try {
-            const products = await Product.all()
+            const res = await Paystack.list_product()
 
-            return response.status(200).json({ message: 'Displaying all products', products })
+            if ( !res.status ) {
+                return response.badRequest({
+                    message: res.message
+                })
+            }
+
+            return response.ok({
+                message: 'Products retrieved',
+                data: res.data
+            })
             
         } catch (err) {
-            console.log(err)
+            response.internalServerError({
+                message: e.message,
+                data: e.stack,
+            });
+
         }
     }
 }
