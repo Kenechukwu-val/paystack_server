@@ -31,4 +31,9 @@ Route.group(() => {
 //customer routes
 Route.group(() => { 
     Route.post('create_customer', 'CustomerController.create_customer')
+    Route.post('transaction', 'CustomerController.init_transaction')
+    Route.post('dedicated_account', 'CustomerController.dedicated_account')
+    Route.get(`verify/:reference`, 'CustomerController.verify_transaction')
+    Route.get('list_banks', 'CustomerController.list_banks')
+    Route.get('list_providers', 'CustomerController.list_providers')
 }).prefix('customer')

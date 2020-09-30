@@ -32,10 +32,10 @@ class ProductController {
             //     message: 'Product successfully created',
             //     data: product
             // })
-        } catch (e) {
+        } catch (err) {
             response.internalServerError({
-                message: e.message,
-                data: e.stack,
+                message: err.message,
+                data: err.stack,
             });
         }
     }
@@ -57,8 +57,8 @@ class ProductController {
             
         } catch (err) {
             response.internalServerError({
-                message: e.message,
-                data: e.stack,
+                message: err.message,
+                data: err.stack,
             });
 
         }
