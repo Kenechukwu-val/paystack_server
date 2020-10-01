@@ -94,6 +94,22 @@ module.exports = {
       })
 
       return data
+    },
+
+    transfer_recipient: async({ name, account_number, bank_code, currency }) => {
+      const { data } = await call ({
+        url: '/transferrecipient',
+        method: 'POST',
+        data: {
+          name,
+          account_number,
+          bank_code,
+          currency,
+          type: 'nuban'
+        }
+      })
+
+      return data
     }
 
 }

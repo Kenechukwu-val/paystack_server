@@ -122,8 +122,33 @@ class CustomerController {
         } catch (err) {
             response.internalServerError({
                 message: err.message,
-                data: err.stack,
+                data: err.stack
             });
+        }
+    }
+
+    async transfer_recipient ({ request, response }) {
+        try {
+            const { name, account_number, bank_code, currency } = request.post()
+
+            const res = await Paystack.transfer_recipient({ name, account_number, bank_code, currency })
+
+            if ( !res.status ) {
+                return response.badRequest({
+                    message: res.message
+                })
+            }
+
+            return response.ok({
+                message: 'Recipient created',
+                data: res.data
+            })
+            
+        } catch (err) {
+            response.internalServerError({
+                message: err.message,
+                data: err.stack
+            })
         }
     }
 }

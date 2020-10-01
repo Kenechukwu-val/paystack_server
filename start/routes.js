@@ -32,6 +32,7 @@ Route.group(() => {
 Route.group(() => { 
     Route.post('create_customer', 'CustomerController.create_customer')
     Route.post('transaction', 'CustomerController.init_transaction')
+    Route.post('transfer_recipient', 'CustomerController.transfer_recipient')
     Route.get(`verify/:reference`, 'CustomerController.verify_transaction')
     Route.get('list_banks', 'CustomerController.list_banks')
     Route.get('resolve', 'CustomerController.resolve_account_number')
