@@ -87,17 +87,13 @@ module.exports = {
       return data
     },
 
-    dedicated_account: async ({ customer, preferred_bank }) =>{
+    resolve_account_number: async({ account_number, bank_code }) => {
       const { data } = await call ({
-        url: '/dedicated_account',
-        method: 'POST',
-        data: {
-          customer,
-          preferred_bank
-        }
+        url: `/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
+        method: 'GET'
       })
 
       return data
-    },
+    }
 
 }

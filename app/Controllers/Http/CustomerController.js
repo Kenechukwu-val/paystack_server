@@ -102,10 +102,11 @@ class CustomerController {
         }
     }
 
-    async list_providers ({ response }) {
+    async resolve_account_number ({ request, response }) {
         try {
+            const { account_number, bank_code } = request.post()
 
-            const res = await Paystack.list_providers()
+            const res = await Paystack.resolve_account_number({ account_number, bank_code })
 
             if ( !res.status ) {
                 return response.badRequest({
@@ -114,32 +115,7 @@ class CustomerController {
             }
 
             return response.ok({
-                message: 'NUBAN Providers retrieved successfully',
-                data: res.data
-            })
-            
-        } catch (err) {
-            response.internalServerError({
-                message: err.message,
-                data: err.stack,
-            });
-        }
-    }
-
-    async dedicated_account ({ request, response })  {
-        try {
-            const { customer, preffered_bank } = request.post()
-
-            const res = await Paystack.dedicated_account({ customer, preffered_bank })
-
-            if ( !res.status ) {
-                return response.badRequest({
-                    message: res.message
-                })
-            }
-
-            return response.ok({
-                message: 'NUBAN successfully created',
+                message: 'Account Number resolved',
                 data: res.data
             })
             
